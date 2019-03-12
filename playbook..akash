@@ -1,0 +1,23 @@
+ 
+-
+ name: installation
+ hosts: all
+ tasks:
+   -
+    name: Install JAVA,TOMCAT,APACHE on ubuntu
+    block:
+     - apt:
+         name: ['apache2', 'openjdk-8-jdk']
+         state: present
+       when:
+         - ansible_facts['distribution'] == "Ubuntu"
+   -
+    name: Install JAVA,TOMCAT,APACHE on centos
+    block:
+      - yum:
+           name: ['httpd', 'java-1.8.0-openjdk']
+           state: present
+        when:
+         - ansible_facts['distribution'] == "CentOS"
+ 
+ 
