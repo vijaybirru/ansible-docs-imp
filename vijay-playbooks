@@ -8,3 +8,90 @@
       state: latest
 
 ---------------------------------------------------------------------------------------
+---
+- hosts: all
+  tasks:
+  - name: install httpd
+    yum:
+      name: httpd
+      state: latest
+-------------------------------------------------------
+---
+- hosts: all
+  tasks:
+  - name: service httpd stop and start
+    service:
+      name: httpd
+      state: stopped
+--------------------------------------------------------
+---
+- hosts: webserver
+  tasks:
+  - name: restart the httpd server
+    service:
+      name: httpd
+      state: restarted
+  - name: copy files from master to slave
+    copy:
+      src: /home/file1.txt
+      dest: /usr/local/
+
+-----------------------------------------------
+How to call multiple plabooks using in single master playbook ?
+---
+- include: playbook1.yml
+- include: playbook2.yml
+- include: playbook3.yml
+
+-------------------------------------------------------------------
+
+ cat fetch.yml
+---
+- hosts: all
+  tasks:
+  - name: using a fetch module--same as copy but in revere way
+    fetch:
+      src: /usr/local/file1.txt
+      dest: /usr/lib/JVM
+------------------------------------------------
+ cat user.yml ===== creating a user with password
+ 
+---
+- hosts: all
+  tasks:
+  - name: creating a user
+    user:
+      name: vijay1
+      state: present
+      password: 1234
+
+
+-----------------------------------------
+Standard Loops
+To save some typing, repeated tasks can be written in short-hand like so:
+
+
+ cat loop.yml
+---
+- hosts: all
+  tasks:
+  - name: trying looping concept
+    user:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - user1
+      - user2
+      - user3
+
+
+
+
+
+
+
+
+
+
+
+
