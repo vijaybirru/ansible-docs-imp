@@ -86,9 +86,42 @@ To save some typing, repeated tasks can be written in short-hand like so:
 
 
 
+===================
+
+Asynchronous Actions and Polling
+By default tasks in playbooks block, meaning the connections stay open until the task is done on each node. This may not always be desirable, or you may be running operations that take longer than the SSH timeout.
+
+To avoid blocking or timeout issues, you can use asynchronous mode to run all of your tasks at once and then poll until they are done.
+
+To launch a task asynchronously, specify its maximum runtime and how frequently you would like to poll for status. The default poll value is 10 seconds if you do not specify a value for poll:
+
+---
+
+- hosts: all
+  remote_user: root
+
+  tasks:
+
+  - name: simulate long running op (15 sec), wait for up to 45 sec, poll every 5 sec
+    command: /bin/sleep 15
+    async: 45
+    poll: 5
+    -------------------------------
+Asynchronous Actions and Polling
+
+[root@ip-172-31-35-49 ansible]# cat async.yml
+---
+- hosts: all
+  tasks:
+  - name: async actions and polling
+    command: sleep 60
+    async: 70
+    poll: 5
+  - name: touch
+    command: touch /tmp/8899.txt
 
 
-
+----------------------------------
 
 
 
