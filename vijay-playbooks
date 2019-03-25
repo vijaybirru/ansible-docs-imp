@@ -124,6 +124,40 @@ Asynchronous Actions and Polling
 ----------------------------------
 
 
+ec2-creation
+
+[root@ip-172-31-35-49 ansible]# cat ec2.yml
+---
+- name: Create a new Demo EC2 instance
+  hosts: all
+  gather_facts: False
+
+  vars:
+      region: us-west-2
+      instance_type: t2.micro
+      ami: ami-0b500ef59d8335eee  # Amazon AMI  16.04 LTS
+      keypair: ansibbbb # pem file name
+
+  tasks:
+
+    - name: Create an ec2 instance
+      ec2:
+         key_name: "{{ keypair }}"
+         group: default  # security group name
+         instance_type: "{{ instance_type}}"
+         image: "{{ ami }}"
+         wait: true
+         region: "{{ region }}"
+         count: 1  # default
+         count_tag:
+            Name: Ansible-EC2-Demo
+         instance_tags:
+            Name: Ansible-EC2-Demo
+         vpc_subnet_id: subnet-237f1059
+         assign_public_ip: yes
+         aws_access_key: AKIAJVFGUHOKTJFM6J4Q
+         aws_secret_key: 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
+      register: ec2
 
 
 
