@@ -1,0 +1,5 @@
+<dependency>
+           <groupId>io.opentracing.contrib</groupId>
+          <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+          <version>1.0.2</version>
+        </dependency>
